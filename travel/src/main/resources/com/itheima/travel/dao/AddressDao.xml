@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.travel.dao.AddressDao">
+
+    <!--保存新收获地址-->
+    <insert id="save" parameterType="Address">
+        insert into tab_address(uid,contact,address,telephone,isdefault) values (#{user.uid},#{contact},#{address},#{telephone},#{isdefault})
+    </insert>
+    <!--修改默认地址-->
+    <!--update 表名称 set 字段名1=新值1,字段名2=新值2..... where 条件;-->
+    <update id="updateByIsdefault" parameterType="List">
+        <foreach collection="collection" item="address" open="" close=";" separator=";">
+            UPDATE tab_address
+            <set>
+                isdefault=#{address.isdefault}
+            </set>
+            WHERE aid = #{address.aid}
+        </foreach>
+    </update>
+
+
+    <!--根据aid删除收获地址-->
+    <delete id="deleteByAid" parameterType="List">
+        delete from tab_address where aid = #{aid}
+    </delete>
+
+    <!--根据uid查询所有的收获地址-->
+    <select id="findByUid" resultType="com.itheima.travel.domain.Address" parameterType="int">
+        select * from tab_address where uid = #{uid} order by isdefault desc
+    </select>
+</mapper>

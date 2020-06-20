@@ -1,0 +1,148 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/webbase.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pages-seckillOrder.css">
+    <title>个人信息</title>
+
+</head>
+<body>
+<!--引入头部-->
+<%@include file="header.jsp" %>
+
+<div class="container-fluid">
+    <!--header-->
+    <div id="account">
+        <div class="py-container">
+            <div class="yui3-g home">
+                <!--左侧列表-->
+                <%@include file="home_left.jsp" %>
+                <!--右侧主内容-->
+                <div class="yui3-u-5-6 order-pay">
+                    <div class="body userInfo">
+                        <ul class="sui-nav nav-tabs nav-large nav-primary ">
+                            <li class="active"><a href="#one" data-toggle="tab">基本资料</a></li>
+                            <li><a href="#two" data-toggle="tab">头像照片</a></li>
+                        </ul>
+                        <form onsubmit="return submit_from()" action="${pageContext.request.contextPath}/userServlet?action=updateInfo"
+                              method="post" enctype="multipart/form-data">
+                            <%--回显id到隐藏域--%>
+                            <input type="hidden" name="uid" value="${currentUser.uid}">
+                            <%--方法隐藏域--%>
+                            <%--<input type="hidden" name="action" value="updateInfo">--%>
+                            <div class="tab-content ">
+                                <div id="one" class="tab-pane active">
+                                    <div class="sui-form form-horizontal">
+                                        <div class="control-group">
+                                            <label for="inputName" class="control-label">昵称：</label>
+                                            <div class="controls">
+                                                <input type="text" id="inputName" name="nickname" placeholder="昵称"
+                                                       value="${currentUser.nickname}">
+                                                <span id="error_name"
+                                                      style="margin-left: 10px;color: red;font-size: 12px"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">性别：</label>
+                                            <div class="controls">
+
+                                                <input type="radio" name="sex" value="1"
+                                                <c:if test="${currentUser.sex != 0}">
+                                                       checked="checked"</c:if> ><b>男</b>
+                                                &nbsp;&nbsp;
+                                                <input type="radio" name="sex" value="0"
+                                                <c:if test="${currentUser.sex == 0}">
+                                                       checked="checked"</c:if> ><b>女</b>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">生日：</label>
+                                            <div class="controls">
+                                                <input type="text" name="birthday" placeholder="生日"
+                                                       value="${currentUser.birthday}">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label">邮箱：</label>
+                                            <div class="controls">
+                                                <input id="inputEmail" type="text" name="email" placeholder="邮箱"
+                                                       value="${currentUser.email}">
+                                                <span id="error_email"
+                                                      style="margin-left: 10px;color: red;font-size: 12px"></span>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <button type="submit" class="sui-btn btn-primary">更新</button>
+                                            </div>
+                                            <div class="controls">
+                                                <button type="reset" class="sui-btn btn-primary">重置</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="two" class="tab-pane">
+
+                                    <div class="new-photo">
+                                        <p>当前头像：</p>
+                                        <div class="upload">
+                                            <img id="imgShow_WU_FILE_0" width="100" height="100"
+                                                 src="${pageContext.request.contextPath}${currentUser.pic}"
+                                                 alt="">
+                                            <input type="file" id="up_img_WU_FILE_0" name="pic"/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--引入尾部-->
+<%@include file="footer.jsp" %>
+
+</body>
+</html>
+<script type="text/javascript">
+    // 昵称的验证
+    let flag_name = false;
+    let reg_name = /^.{2,8}$/;
+    $("#inputName").blur(function () {
+        flag_name = reg_name.test($(this).val())
+        if (!flag_name) {
+            $("#error_name").html("2-8个字符");
+            return;
+        }
+        $("#error_name").html("");
+    })
+
+    // 邮箱的正则
+    let flag_email = false;
+    let reg_email = /^([a-zA-Z\d])(\w|\-)+@[a-zA-Z\d]+\.[a-zA-Z]{2,4}$/;
+    $("#inputEmail").blur(function () {
+        flag_email = reg_email.test($(this).val())
+        if (!flag_email) {
+            $("#error_email").html("邮箱格式错误");
+            return;
+        }
+        $("#error_email").html("");
+    })
+
+    // 防止错误提交
+    function submit_from() {
+        flag_name = reg_name.test($("#inputName").val())
+        flag_email = reg_email.test($("#inputEmail").val())
+        return flag_name && flag_email;
+    }
+
+</script>

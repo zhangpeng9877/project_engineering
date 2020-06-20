@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.travel.dao.OrderDao">
+
+    <insert id="save" parameterType="Order">
+        insert into tab_order (oid,ordertime,total,state,address,contact,telephone,uid)
+        values (#{oid},#{ordertime},#{total},#{state},#{address},#{contact},#{telephone},#{uid})
+    </insert>
+</mapper>

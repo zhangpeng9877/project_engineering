@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans>
+    <bean id="userService" class="com.itheima.travel.service.impl.UserServiceImpl"></bean>
+    <bean id="addressService" class="com.itheima.travel.service.impl.AddressServiceImpl"></bean>
+    <bean id="categoryService" class="com.itheima.travel.service.impl.CategoryServiceImpl"></bean>
+    <bean id="routeService" class="com.itheima.travel.service.impl.RouteServiceImpl"></bean>
+    <bean id="orderService" class="com.itheima.travel.service.impl.OrderServiceImpl"></bean>
+    <bean id="payNotifyService" class="com.itheima.travel.service.impl.PayNotifyServiceImpl"></bean>
+</beans>
