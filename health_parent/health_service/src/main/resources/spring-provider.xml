@@ -7,7 +7,7 @@
     <import resource="classpath:spring-service.xml"/>
 
     <!--指定应用名称-->
-    <dubbo:application name="health_service"/>
+    <dubbo:application name="dubbo_service"/>
 
     <!--指定暴露服务的端口，如果不指定默认为20880，端口号不能和web工程中的配置文件消费者的端口相同即可-->
     <dubbo:protocol name="dubbo" port="20887"/>

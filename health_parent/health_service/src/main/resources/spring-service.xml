@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd ">
 
     <!--引入spring-dao.xml配置文件-->
     <import resource="classpath:spring-dao.xml"/>
@@ -26,5 +26,6 @@
         如果dubbo的版本为2.6.2,就没有上面的问题。但是在mvc配置文件中需要扫controller包
     -->
     <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+
 
 </beans>
