@@ -2,9 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.itheima.health.dao.CheckItemDao">
+    <insert id="add">
+        insert into t_checkitem (code,name,sex,age,price,type,remark,attention) values (#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+    </insert>
+
+    <update id="update">
+        update t_checkitem set code=#{code},name=#{name},sex=#{sex},age=#{age},price=#{price},type=#{type},remark=#{remark},attention=#{attention} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from t_checkitem where id = #{id}
+    </delete>
 
     <select id="findAll" resultType="com.itheima.health.pojo.CheckItem">
         select * from t_checkitem
     </select>
+
+    <select id="findCountByCheckItemId" resultType="java.lang.Integer">
+        select count(1) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id};
+    </select>
+
+    <select id="findPage" resultType="com.itheima.health.pojo.CheckItem">
+        select * from t_checkitem
+        <if test="value != null and value.length > 0">
+            where `code` like #{value} or `name` like #{value}
+        </if>
+    </select>
+
 
 </mapper>
