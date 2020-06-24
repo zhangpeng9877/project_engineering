@@ -2,6 +2,7 @@ package com.itheima.health.service;
 
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
+import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.CheckGroup;
 
 import java.util.List;
@@ -35,5 +36,5 @@ public interface CheckGroupService {
     /**
      * 删除检查组，并且需要删除中间表关系
      */
-    void delete(Integer id);
+    void delete(Integer id) throws HealthException;
 }

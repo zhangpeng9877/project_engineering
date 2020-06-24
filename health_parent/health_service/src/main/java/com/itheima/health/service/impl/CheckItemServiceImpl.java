@@ -51,7 +51,7 @@ public class CheckItemServiceImpl implements CheckItemService {
     }
 
     /**
-     * 删除数据项
+     * 删除检查项
      */
     @Override
     public void delete(Integer id) {

@@ -4,9 +4,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
+import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.dao.CheckGroupDao;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
+import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.service.CheckGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,12 +89,17 @@ public class CheckGroupServiceImpl implements CheckGroupService {
     }
 
     /**
-     * 删除检查组，并且需要删除中间表关系
+     * 删除检查组，先判断和主表是否有关联，有则不能删除，如果没有，则先解除和从表的关系，在删除
      */
     @Transactional
     @Override
     public void delete(Integer id) {
-        // 先删除中间表数据
+        // 判断和套餐(主)表是否有关联关系
+        if (checkGroupDao.findCheckGroupCountBySetMeal(id) > 0) {
+            // 需要在这个接口的方法中抛出HealthException异常才能被全局捕获，因为没有指定异常抛出，在web层会被运行时异常捕获
+            throw new HealthException(MessageConstant.CHECKGROUP_SETMEAL_FAIL);
+        }
+        // 先删除与检查项（副）表中间表的关系
         checkGroupDao.deleteCheckGroupCheckItemById(id);
         // 在删除检查组的数据
         checkGroupDao.delete(id);

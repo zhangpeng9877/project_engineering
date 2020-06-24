@@ -4,6 +4,8 @@ package com.itheima.health.constant;
  * 消息常量
  */
 public interface MessageConstant {
+    String CHECKGROUP_SETMEAL_FAIL="检查组被套餐管理，删除失败";
+    String SETMEAL_ORDER_FAIL = "套餐已经被预约，删除失败";
     String CHECKGROUP_ARRAY_ID = "查询检查项的id成功";
     String CHECKITEM_IN_USE = "此检查项已经被使用了，不能删除";
     String DELETE_CHECKITEM_FAIL = "删除检查项失败";
@@ -27,6 +29,10 @@ public interface MessageConstant {
     String PIC_UPLOAD_FAIL = "图片上传失败";
     String ADD_SETMEAL_FAIL = "新增套餐失败";
     String ADD_SETMEAL_SUCCESS = "新增套餐成功";
+    String UPDATE_SETMEAL_FAIL = "编辑套餐失败";
+    String UPDATE_SETMEAL_SUCCESS = "编辑套餐成功";
+    String DELETE_SETMEAL_SUCCESS = "删除套餐成功";
+    String DELETE_SETMEAL_FAIL = "删除套餐失败";
     String IMPORT_ORDERSETTING_FAIL = "批量导入预约设置数据失败";
     String IMPORT_ORDERSETTING_SUCCESS = "批量导入预约设置数据成功";
     String GET_ORDERSETTING_SUCCESS = "获取预约设置数据成功";

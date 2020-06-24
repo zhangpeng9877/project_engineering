@@ -46,4 +46,10 @@ public interface CheckGroupDao {
      * 删除检查组信息
      */
     void delete(Integer id);
+
+
+    /**
+     * 判断检查组和套餐(主)表是否有关联关系
+     */
+    Integer findCheckGroupCountBySetMeal(Integer id);
 }

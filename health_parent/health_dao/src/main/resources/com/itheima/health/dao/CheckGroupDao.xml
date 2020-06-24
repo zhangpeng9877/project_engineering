@@ -41,4 +41,9 @@
     <select id="findByIdWhitCheckItem" resultType="int" parameterType="int">
         select `checkitem_id` from t_checkgroup_checkitem where `checkgroup_id` = #{id}
     </select>
+
+   <!--判断检查组和套餐(主)表是否有关联关系-->
+    <select id="findCheckGroupCountBySetMeal" resultType="java.lang.Integer">
+        select count(1) from `t_setmeal_checkgroup` where checkgroup_id = #{id}
+    </select>
 </mapper>
