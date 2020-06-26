@@ -2,9 +2,9 @@ package com.itheima.health.service;
 
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
+import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.pojo.Setmeal;
-import com.sun.xml.internal.ws.handler.HandlerException;
 
 import java.util.List;
 
@@ -43,5 +43,10 @@ public interface SetMealService {
     /**
      * 删除套餐管理
      */
-    void delete(Integer id) throws HandlerException;
+    void delete(Integer id) throws HealthException;
+
+    /**
+     * 指定id查询项目组信息
+     */
+    Setmeal findById(Integer id);
 }

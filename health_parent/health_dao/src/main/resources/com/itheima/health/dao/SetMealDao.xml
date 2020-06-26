@@ -60,4 +60,9 @@
     <select id="findSetMealCountOrder" resultType="java.lang.Integer">
          select count(1) from `t_order` where setmeal_id = #{id}
     </select>
+
+    <!--指定id查询项目组信息-->
+    <select id="findById" resultType="com.itheima.health.pojo.Setmeal">
+        select * from t_setmeal where id = #{id}
+    </select>
 </mapper>

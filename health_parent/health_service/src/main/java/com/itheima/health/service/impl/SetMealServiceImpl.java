@@ -8,10 +8,10 @@ import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.dao.SetMealDao;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
+import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.pojo.Setmeal;
 import com.itheima.health.service.SetMealService;
-import com.sun.xml.internal.ws.handler.HandlerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,14 +105,22 @@ public class SetMealServiceImpl implements SetMealService {
     @Transactional
     @Override
     public void delete(Integer id) {
-
         // 先判断和订单表（主表）是否存在关联关系
         if (setMealDao.findSetMealCountOrder(id) > 0) {
-            throw new HandlerException(MessageConstant.SETMEAL_ORDER_FAIL);
+            throw new HealthException(MessageConstant.SETMEAL_ORDER_FAIL);
         }
         // 需要先删除套餐管理和检查组中间表的关联关系
         setMealDao.deleteSetmealByIdCheckGroup(id);
         // 然后再删除套餐管理的数据
         setMealDao.delete(id);
+    }
+
+
+    /**
+     * 指定id查询项目组信息
+     */
+    @Override
+    public Setmeal findById(Integer id) {
+        return setMealDao.findById(id);
     }
 }

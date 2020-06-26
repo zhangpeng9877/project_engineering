@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--引入-->
+    <import resource="classpath:spring-redis.xml"/>
+
+    <!--包扫描，将自定义的任务类对象加入到ioc容器中-->
+    <context:component-scan base-package="com.itheima.health.job"/>
+
+    <!--2.创建MethodInvokingJobDetailFactoryBean对象，作用是负责通过反射调用指定的job，注入目标对象，注入目标方法-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="clearImgJob"/>
+        <property name="targetMethod" value="runClear"/>
+    </bean>
+
+    <!--3.创建CronTriggerFactoryBean对象，注册一个触发器，指定触发任务时间-->
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--<property name="cronExpression" value="0/30 * * * * ?"/> -->   <!--测试，30秒钟执行一次-->
+        <property name="cronExpression" value="0 0 4 * * ?"/>
+        <property name="jobDetail" ref="jobDetail"/>
+    </bean>
+
+    <!--4.注册一个SchedulerFactoryBean统一的调度工厂对象，通过这个调度工厂对象调度执行的任务-->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="trigger"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

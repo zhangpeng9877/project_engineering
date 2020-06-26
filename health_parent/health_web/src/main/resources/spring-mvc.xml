@@ -7,6 +7,8 @@
     <!--引入spring-consumer.xml消费者配置文件-->
     <import resource="classpath:spring-consumer.xml"/>
 
+    <import resource="classpath:spring-redis.xml"/>
+
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
             <!--不需要视图解析器，项目中的所有的请求都返回json数据结构-->

@@ -57,4 +57,9 @@ public interface SetMealDao {
      * 先判断和订单表（主表）是否存在关联关系
      */
     Integer findSetMealCountOrder(Integer id);
+
+    /**
+     * 指定id查询项目组信息
+     */
+    Setmeal findById(Integer id);
 }

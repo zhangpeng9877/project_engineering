@@ -85,7 +85,7 @@
         <div class="box">
             <div class="filter-container">
                 <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;"
-                          class="filter-item" @keyup.enter.native="handleFilter"></el-input>
+                          class="filter-item" @keyup.enter.native="handleCurrentChange(1)"></el-input>
                 <el-button @click="handleCurrentChange(1)" class="dalfBut">查询</el-button>
                 <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
             </div>
@@ -374,13 +374,16 @@
         methods: {
             //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
             handleAvatarSuccess(response, file) {
-                this.imageUrl = "http://qcdcwehe2.bkt.clouddn.com/" + response.data;   // 用于显示上传的图片，返回的一个文件名，组合连接
                 this.$message({
                     message: response.message,
                     type: response.flag ? 'success' : 'error'
                 })
-                //设置模型数据（图片名称），后续提交ajax请求时会提交到后台最终保存到数据库
-                this.formData.img = response.data; // 用于保存，把文件名赋值给formData中的img中
+                if (response.flag) {
+                    // 用于显示上传的图片，返回的一个文件名，组合连接
+                    this.imageUrl = response.data.domain + response.data.imgName;
+                    //设置模型数据（图片名称），后续提交ajax请求时会提交到后台最终保存到数据库
+                    this.formData.img = response.data.imgName; // 用于保存，把文件名赋值给formData中的img中
+                }
             },
             //上传图片之前执行
             beforeAvatarUpload(file) {
@@ -434,8 +437,9 @@
             // 重置表单
             resetForm() {
                 this.activeName = 'first';
-                this.formData = {},
-                    this.imageUrl = ""; // 上传图片之前，先把路径清空
+                this.formData = {};
+                this.imageUrl = ""; // 上传图片之前，先把路径清空
+                this.checkgroupIds = [];
             },
             // 弹出添加窗口
             handleCreate() {
@@ -454,24 +458,31 @@
             handleUpdate(row) {
                 this.dialogFormVisible4Edit = true;  // 开启弹窗
                 this.resetForm();   // 重置表单
-                this.formData = row;    // 回显表单数据
-                this.imageUrl = "http://qcdcwehe2.bkt.clouddn.com/" + row.img;  // 回显图片文件信息
-                // 发送请求，获取到检查项的数据
-                axios.get('/setmeal/findAllCheckGroup.do').then(res => {
-                    if (res.data.flag) {
-                        this.tableData = res.data.data;
-                        // ajax查询出和套餐管理有关联的检查组数据id
-                        axios.get("/setmeal/findSetMealByIdCheckGroupId.do?setmealId=" + row.id).then(res => {
+                axios.get('/setmeal/findById.do?id=' + row.id).then(res => {
+                    if (res.data.flag) {    // 查询指定的id项目组,回显数据到表单
+                        this.formData = res.data.data.setmeal;    // 回显表单数据
+                        this.imageUrl = res.data.data.imgPath;    // 回显图片文件信息
+                        // 发送请求，获取到检查项的数据
+                        axios.get('/setmeal/findAllCheckGroup.do').then(res => {
                             if (res.data.flag) {
-                                this.checkgroupIds = res.data.data;
+                                this.tableData = res.data.data;
+                                // ajax查询出和套餐管理有关联的检查组数据id
+                                axios.get("/setmeal/findSetMealByIdCheckGroupId.do?setmealId=" + row.id).then(res => {
+                                    if (res.data.flag) {
+                                        this.checkgroupIds = res.data.data;
+                                    } else {
+                                        this.$message.error(res.data.message)
+                                    }
+                                })
                             } else {
-                                this.$message.error(res.data.message)
+                                this.$message.error(res.data.message);
                             }
                         })
+
                     } else {
                         this.$message.error(res.data.message);
                     }
-                })
+                });
             },
             //切换页码
             handleCurrentChange(currentPage) {
@@ -485,7 +496,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.post('/setmeal/delete.do?id=' + row.id + '&fileName=' + row.img).then(res => {
+                    axios.post('/setmeal/delete.do?id=' + row.id).then(res => {
                         if (res.data.flag) {
                             this.findPage();    // 刷新页面
                         }
@@ -494,8 +505,6 @@
                             message: res.data.message
                         });
                     })
-
-
                 }).catch(() => {
                     this.$message({
                         type: 'info',
