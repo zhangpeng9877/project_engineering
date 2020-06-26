@@ -37,6 +37,7 @@ public interface MessageConstant {
     String IMPORT_ORDERSETTING_SUCCESS = "批量导入预约设置数据成功";
     String GET_ORDERSETTING_SUCCESS = "获取预约设置数据成功";
     String GET_ORDERSETTING_FAIL = "获取预约设置数据失败";
+    String ORDERSETTING_NO_NUMBER = "中已预约数量不能大于可预约数量";
     String ORDERSETTING_SUCCESS = "预约设置成功";
     String ORDERSETTING_FAIL = "预约设置失败";
     String ADD_MEMBER_FAIL = "新增会员失败";

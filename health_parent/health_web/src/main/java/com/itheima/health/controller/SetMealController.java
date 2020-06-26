@@ -10,7 +10,6 @@ import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.pojo.Setmeal;
 import com.itheima.health.service.SetMealService;
 import com.itheima.health.util.QiNiuUtils;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
