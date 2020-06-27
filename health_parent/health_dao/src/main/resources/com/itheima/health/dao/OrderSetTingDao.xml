@@ -15,4 +15,9 @@
     <select id="findByOrderDate" resultType="com.itheima.health.pojo.OrderSetting">
         select * from t_ordersetting where orderDate = #{orderDate}
     </select>
+
+    <!--通过月份来获取预约设置信息-->
+    <select id="getOrderSetTingByMonth" resultType="com.itheima.health.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate between  #{monthBegin} and #{monthEnd}
+    </select>
 </mapper>

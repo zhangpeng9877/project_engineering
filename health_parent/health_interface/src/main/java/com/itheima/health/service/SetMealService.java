@@ -49,4 +49,15 @@ public interface SetMealService {
      * 指定id查询项目组信息
      */
     Setmeal findById(Integer id);
+
+    /**
+     * 查询所有
+     */
+    List<Setmeal> findAll();
+
+
+    /**
+     * 查询套餐的详情
+     */
+    Setmeal findDetailById(Integer id);
 }

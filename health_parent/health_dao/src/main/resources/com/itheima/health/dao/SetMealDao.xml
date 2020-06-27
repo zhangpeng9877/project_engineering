@@ -65,4 +65,50 @@
     <select id="findById" resultType="com.itheima.health.pojo.Setmeal">
         select * from t_setmeal where id = #{id}
     </select>
+
+    <!--查询所有-->
+    <select id="findAll" resultType="com.itheima.health.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
+
+    <resultMap id="setmealDetailMap" type="com.itheima.health.pojo.Setmeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="helpCode" column="helpCode"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="price" column="price"/>
+        <result property="remark" column="remark"/>
+        <result property="attention" column="attention"/>
+        <result property="img" column="img"/>
+        <collection property="checkGroups" ofType="com.itheima.health.pojo.CheckGroup">
+            <id property="id" column="checkgroup_id"/>
+            <result property="name" column="checkgroup_name"/>
+            <result property="remark" column="checkgroup_remark"/>
+            <collection property="checkItems" ofType="com.itheima.health.pojo.CheckItem">
+                <id property="id" column="checkitem_id"/>
+                <result property="name" column="checkitem_name"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <!--查询套餐的详情-->
+    <select id="findDetailById" resultMap="setmealDetailMap">
+        select
+            s.*,
+            sc.`checkgroup_id`,
+            cg.`name` as checkgroup_name,cg.`remark` as checkgroup_remark,
+            cc.`checkitem_id`,
+            ci.`name` as checkitem_name
+        from
+            t_setmeal as s,t_setmeal_checkgroup as sc,
+            t_checkgroup as cg,t_checkgroup_checkitem as cc,
+            t_checkitem as ci
+        where
+            s.`id`=sc.`setmeal_id` and
+            sc.`checkgroup_id`=cg.`id` and
+            cg.`id`=cc.`checkgroup_id` and
+            cc.`checkitem_id`=ci.`id` and
+            s.`id`=#{id}
+    </select>
 </mapper>

@@ -7,8 +7,7 @@ import com.itheima.health.exception.HealthException;
 import com.itheima.health.pojo.OrderSetting;
 import com.itheima.health.service.OrderSetTingService;
 import com.itheima.health.util.POIUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 张鹏
@@ -32,8 +32,6 @@ public class OrderSetTingController {
 
     /**
      * 上传excel表格文件
-     *
-     * @param excelFile
      */
     @RequestMapping("/upload")
     public Result upload(MultipartFile excelFile) {
@@ -61,6 +59,25 @@ public class OrderSetTingController {
             e.printStackTrace();
             throw new HealthException(MessageConstant.ORDERSETTING_NO_NUMBER);
         }
+    }
+
+
+    /**
+     * 通过月份来获取预约设置信息
+     */
+    @GetMapping("/getOrderSetTingByMonth")
+    public Result getOrderSetTingByMonth(String month) {    // 参数的格式为yyyy-MM
+        List<Map<String, Integer>> mapList = orderSetTingService.getOrderSetTingByMonth(month);
+        return new Result(true, MessageConstant.GET_ORDERSETTING_SUCCESS, mapList);
+    }
+
+    /**
+     * 通过日历来设置预约的数量
+     */
+    @PostMapping("/editNumberByDate")
+    public Result editNumberByDate(@RequestBody OrderSetting orderSetting) {
+        orderSetTingService.editNumberByDate(orderSetting);
+        return new Result(true, MessageConstant.ORDERSETTING_SUCCESS);
     }
 
 }

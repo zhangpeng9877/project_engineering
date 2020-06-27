@@ -1,8 +1,10 @@
 package com.itheima.health.dao;
 
 import com.itheima.health.pojo.OrderSetting;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author 张鹏
@@ -28,4 +30,9 @@ public interface OrderSetTingDao {
      * @param orderSetting
      */
     void add(OrderSetting orderSetting);
+
+    /**
+     * 通过月份来获取预约设置信息
+     */
+    List<OrderSetting> getOrderSetTingByMonth(@Param("monthBegin") String monthBegin,@Param("monthEnd") String monthEnd);
 }

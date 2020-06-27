@@ -123,4 +123,22 @@ public class SetMealServiceImpl implements SetMealService {
     public Setmeal findById(Integer id) {
         return setMealDao.findById(id);
     }
+
+
+    /**
+     * 查询所有
+     */
+    @Override
+    public List<Setmeal> findAll() {
+        return setMealDao.findAll();
+    }
+
+
+    /**
+     * 查询套餐的详情
+     */
+    @Override
+    public Setmeal findDetailById(Integer id) {
+        return setMealDao.findDetailById(id);
+    }
 }
